@@ -1,10 +1,7 @@
-require 'pp'
-
 raw_data = File.read(ARGV[0]).split("\n")
 data     = raw_data.map { |l| l.split('').group_by { |x| x } }
 
 groups_of_two   = data.map { |d| d.any? { |_, v| v.length == 2 }}.count(true)
-
 groups_of_three = data.map { |d| d.any? { |_, v| v.length == 3 }}.count(true)
 
 puts "Star 1: #{groups_of_two * groups_of_three}"

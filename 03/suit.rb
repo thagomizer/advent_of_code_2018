@@ -19,19 +19,19 @@ raw_data.each_slice(3) do |id, upper_left, size|
   l, t = upper_left.split(",").map(&:to_i)
   w, h = size.split("x").map(&:to_i)
 
-  overlap = false
+  no_overlap = true
 
   (l...(l + w)).each do |x|
     (t...(t + h)).each do |y|
       if fabric["#{x},#{y}"] > 1 then
-        overlap = true
+        no_overlap = false
         break
       end
     end
-    break if overlap
+    break unless no_overlap
   end
 
-  unless overlap
+  if no_overlap
     puts "Star 2: #{id}"
     exit
   end

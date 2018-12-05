@@ -2,9 +2,6 @@ data = File.read(ARGV[0]).split("\n").sort
 
 guards = Hash.new { |h, k| h[k] = Hash.new(0) }
 
-guard  = nil
-start  = nil
-
 data.each do |line|
   if line =~ /\[.*:(\d\d)\] Guard #(\d+)/
     guard = $2.to_i
@@ -17,13 +14,13 @@ data.each do |line|
   end
 end
 
-sleeps_most = guards.max_by { |id, data| data.values.inject(:+) }.first
+sleeps_most = guards.max_by { |id, data| data.values.inject(:+) }[0]
 
-min_asleep = guards[sleeps_most].max_by { |min, days| days }.first
+min_asleep  = guards[sleeps_most].max_by { |min, days| days }[0]
 
 puts "Star 1: #{sleeps_most * min_asleep}"
 
-star2 = [nil, 0, 0]
+star2 = [nil, 0, 0]  # [guard_id, minute, amount of time asleep]
 
 guards.each do |guard, sleep_data|
   guard_max = sleep_data.max_by{ |min, count| count}
